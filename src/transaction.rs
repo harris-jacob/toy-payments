@@ -53,6 +53,8 @@ impl Amount {
 
     #[cfg(test)]
     pub fn from_float(value: f32) -> anyhow::Result<Self> {
+        use rust_decimal::prelude::FromPrimitive;
+
         let value = Decimal::from_f32(value)
             .ok_or(anyhow::anyhow!("cannot represent decimal as amount"))?;
 
