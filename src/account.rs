@@ -42,6 +42,8 @@ impl Account {
         self.held.add(amount);
     }
 
+    // Reduces the amount of held funds and increases the available funds by 
+    // the amount, panics if there are insufficient held funds to release.
     pub fn release(&mut self, amount: Amount) {
         // Defensively protecting this invariant. In practice this should
         // never happen as only transactions marked as disputed can be
@@ -54,6 +56,8 @@ impl Account {
         self.available.add(amount);
     }
 
+    // Reduces the held funds by amount and freezes the account. Panics
+    // if the required amount is not held.
     pub fn chargeback(&mut self, amount: Amount) {
         // Defensively protecting this invariant. In practice this should
         // never happen as only transactions marked as disputed can be
