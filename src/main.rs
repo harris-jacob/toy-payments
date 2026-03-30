@@ -46,7 +46,7 @@ fn main() -> anyhow::Result<()> {
     let mut reader = csv::ReaderBuilder::new().trim(Trim::All).from_reader(file);
     let mut writer = csv::WriterBuilder::new().from_writer(std::io::stdout());
 
-    for result in reader.deserialize::<InputRecord>() {
+    for result in reader.deserialize() {
         let record: InputRecord = result?;
 
         let transaction = record.transaction()?;

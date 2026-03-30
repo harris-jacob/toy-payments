@@ -113,3 +113,8 @@ would be concurrent state access. There are a few approaches here:
 - Sharding by client (if we really needed multiple 'engine' threads).
 - Actor model, streams are read and submit transactions to an engine thread via
 channels (my preferred approach).
+
+## LLM support
+LLM support was used to figure out how to trim the whitespace out of the initial csv
+it gave me .trim(Trim::All). Prompt was something like: how do I trim whitespace out of an input
+csv in rust.
