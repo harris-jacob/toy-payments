@@ -19,7 +19,7 @@ I made a couple extra assumptions along the way, here they are:
 
 - Account's available funds can go negative during disputes.
 - No operations can be performed on frozen accounts.
-- For chargebacks, disputes and resolved -- the client id must match the client
+- For chargebacks, disputes and resolves, the client id must match the client
 ID in the recorded transaction, if it does not, the operation is ignored.
 - Only deposits can be disputed. Since the spec mentions 'available funds
 should decrease', I assume this means withdrawals do not get disputed. This is
@@ -32,11 +32,11 @@ I would like to have tested the `state.rs` file, particularly each transaction t
 and the various edge cases e.g.:
 
 - Missing Client ID (creates new client).
-- Chargeback/resolve non disputed transaction (ignored).
-- Dispute already disputed transaction (ignored).
+- Chargeback/resolve, non disputed transaction are ignored.
+- Disputing an already disputed transaction does nothing.
 - Resolve/chargeback/dispute where the client_id does not match recorded transaction
-(does nothing).
-- operations on frozen accounts (do nothing).
+does nothing.
+- operations on frozen accounts do nothing.
 
 RE correctness, where possible I have leveraged the type system but there are some cases
 I would have liked to do a little more (given more time). I don't like the fact that
@@ -103,10 +103,11 @@ ideal these errors would be protected by tests in the application logic.
 
 I am streaming the csv file via a reader and there are no rogue collects going on
 so it should be able to handle large data files. We're limited by how many transaction
-and account records we can store in memory but these are pretty light.
+and account records we can store in memory but these are pretty light, as mentioned above,
+only deposits are stored.
 
-RE CSVs coming from thousand of concurrent TCP streams. Obviously the main problem 
- would be concurrent state access. There are a few approaches here:
+RE CSVs coming from thousand of concurrent TCP streams. The main problem 
+would be concurrent state access. There are a few approaches here:
 
 - Client level locks (might get pretty messy).
 - Sharding by client (if we really needed multiple 'engine' threads).
