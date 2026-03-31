@@ -20,7 +20,7 @@ struct InputRecord {
 
 #[derive(Debug, Serialize)]
 struct OutputRecord {
-    client_id: u16,
+    client: u16,
     available: Decimal,
     held: Decimal,
     total: Decimal,
@@ -56,7 +56,7 @@ fn main() -> anyhow::Result<()> {
 
     for (client_id, account) in state.accounts() {
         let _ = writer.serialize(OutputRecord {
-            client_id: client_id.inner(),
+            client: client_id.inner(),
             available: account.available.display(),
             held: account.held.display(),
             total: account.total().display(),
