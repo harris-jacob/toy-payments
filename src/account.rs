@@ -69,6 +69,11 @@ impl Account {
         self.frozen = true;
         self.held.sub(amount);
     }
+
+    // The total funds are the sum of available and held funds 
+    pub fn total(&self) -> Amount {
+        self.held + self.available
+    }
 }
 
 #[cfg(test)]

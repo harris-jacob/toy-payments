@@ -62,6 +62,14 @@ impl Amount {
     }
 }
 
+impl std::ops::Add for Amount {
+    type Output = Amount;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Amount(self.0 + rhs.0)
+    }
+}
+
 impl TransactionId {
     pub fn new(value: u32) -> Self {
         Self(value)

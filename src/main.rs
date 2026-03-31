@@ -23,6 +23,7 @@ struct OutputRecord {
     client_id: u16,
     available: Decimal,
     held: Decimal,
+    total: Decimal,
     locked: bool,
 }
 
@@ -58,6 +59,7 @@ fn main() -> anyhow::Result<()> {
             client_id: client_id.inner(),
             available: account.available.display(),
             held: account.held.display(),
+            total: account.total().display(),
             locked: account.frozen,
         });
     }
